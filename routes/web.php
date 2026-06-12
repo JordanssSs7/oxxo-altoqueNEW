@@ -14,7 +14,7 @@ Route::get('/catalogo', [ProductoController::class, 'catalogo'])->name('catalogo
 Route::get('/terminos', fn() => view('terminos'))->name('terminos');
 Route::get('/privacidad', fn() => view('privacidad'))->name('privacidad');
 Route::get('/promociones', [ProductoController::class, 'promociones'])->name('promociones');
-Route::get('/novedades', [ProductoController::class, 'novedades'])->name('novedades');
+Route::get('/sucursales', fn() => view('sucursales'))->name('sucursales');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

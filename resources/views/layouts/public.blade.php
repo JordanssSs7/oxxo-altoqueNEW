@@ -22,7 +22,7 @@
                 <a href="{{ route('home') }}" class="hover:text-red-600 transition">Inicio</a>
                 <a href="{{ route('catalogo') }}" class="hover:text-red-600 transition">Productos</a>
                 <a href="{{ route('promociones') }}" class="hover:text-red-600 transition">Promociones</a>
-                <a href="{{ route('novedades') }}" class="hover:text-red-600 transition">Novedades</a>
+                <a href="{{ route('sucursales') }}" class="hover:text-red-600 transition">Sucursales</a>
             </div>
 
             {{-- Carrito + botón sesión --}}
