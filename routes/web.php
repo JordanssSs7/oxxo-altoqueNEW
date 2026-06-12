@@ -9,6 +9,10 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get('/catalogo', [ProductoController::class, 'catalogo'])->name('catalogo');
+Route::get('/terminos', fn() => view('terminos'))->name('terminos');
+Route::get('/privacidad', fn() => view('privacidad'))->name('privacidad');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -17,6 +21,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::post('/profile/foto', [ProfileController::class, 'actualizarFoto'])->name('profile.foto');
 });
 
 // Rutas del administrador — protegidas con auth y es.admin

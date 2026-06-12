@@ -10,6 +10,19 @@ use Illuminate\Support\Facades\Log;
 
 class ProductoController extends Controller
 {
+    // Catálogo público (sin login)
+    public function catalogo()
+    {
+        try {
+            $categorias = Categoria::orderBy('nombre')->get();
+            $productos  = Producto::orderBy('nombre')->get();
+            return view('catalogo', compact('productos', 'categorias'));
+        } catch (Exception $err) {
+            Log::error('Error cargando catálogo: ' . $err->getMessage());
+            return back()->with('error', 'Ocurrió un error al cargar el catálogo.');
+        }
+    }
+
     // Lista todos los productos
     public function index()
     {

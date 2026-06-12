@@ -37,6 +37,19 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
     }
 
+    public function actualizarFoto(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'foto' => ['required', 'image', 'max:2048'],
+        ]);
+
+        $path = $request->file('foto')->store('fotos', 'public');
+        $request->user()->foto = $path;
+        $request->user()->save();
+
+        return Redirect::route('dashboard')->with('status', 'foto-actualizada');
+    }
+
     /**
      * Delete the user's account.
      */

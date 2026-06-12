@@ -43,7 +43,7 @@
 
         {{-- Botón CTA --}}
         <div>
-            <a href="{{ route('login') }}"
+            <a href="{{ route('catalogo') }}"
                class="inline-block bg-red-600 text-white px-8 py-3 rounded-full font-semibold text-lg hover:bg-red-700 transition">
                 Ver productos &rarr;
             </a>
@@ -54,7 +54,7 @@
 </section>
 
 {{-- ========== CÓMO FUNCIONA ========== --}}
-<section class="py-20 bg-white">
+<section id="como-funciona" class="py-20 bg-white">
     <div class="max-w-6xl mx-auto px-6 text-center">
         <h2 class="text-3xl font-bold mb-2 text-gray-800">¿Cómo funciona?</h2>
         <p class="text-gray-400 mb-12">Solo 5 pasos para comprar sin esperas</p>
@@ -82,40 +82,5 @@
     </div>
 </section>
 
-{{-- ========== CATEGORÍAS ========== --}}
-<section class="py-20 bg-gray-50">
-    <div class="max-w-6xl mx-auto px-6 text-center">
-        <h2 class="text-3xl font-bold mb-2 text-gray-800">Categorías</h2>
-        <p class="text-gray-400 mb-12">Todo lo que encuentras en OXXO, ahora en línea</p>
-
-        <div class="grid grid-cols-4 gap-6">
-            @foreach ([
-                ['icono' => '🥤', 'nombre' => 'Bebidas'],
-                ['icono' => '🍿', 'nombre' => 'Snacks'],
-                ['icono' => '🧴', 'nombre' => 'Higiene'],
-                ['icono' => '🍫', 'nombre' => 'Dulces'],
-            ] as $cat)
-
-            <div class="bg-white rounded-2xl shadow p-8 hover:shadow-lg hover:-translate-y-1 transition cursor-pointer">
-                <div class="text-5xl mb-4">{{ $cat['icono'] }}</div>
-                <h3 class="font-semibold text-gray-700 text-lg">{{ $cat['nombre'] }}</h3>
-            </div>
-
-            @endforeach
-        </div>
-    </div>
-</section>
-
-{{-- ========== CTA FINAL ========== --}}
-<section class="bg-red-600 py-16 text-center text-white">
-    <div class="max-w-xl mx-auto px-6">
-        <h2 class="text-3xl font-bold mb-3">¿Listo para pedir?</h2>
-        <p class="text-red-100 mb-8">Crea tu cuenta gratis y empieza a comprar en segundos.</p>
-        <a href="{{ route('register') }}"
-           class="bg-white text-red-600 font-bold px-8 py-3 rounded-full text-lg hover:bg-gray-100 transition">
-            Crear cuenta gratis
-        </a>
-    </div>
-</section>
 
 @endsection
