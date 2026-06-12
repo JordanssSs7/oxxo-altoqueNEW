@@ -21,8 +21,8 @@
             <div class="flex gap-8 text-gray-700 font-medium">
                 <a href="{{ route('home') }}" class="hover:text-red-600 transition">Inicio</a>
                 <a href="{{ route('catalogo') }}" class="hover:text-red-600 transition">Productos</a>
-                <a href="#" class="hover:text-red-600 transition">Promociones</a>
-                <a href="#" class="hover:text-red-600 transition">Novedades</a>
+                <a href="{{ route('promociones') }}" class="hover:text-red-600 transition">Promociones</a>
+                <a href="{{ route('novedades') }}" class="hover:text-red-600 transition">Novedades</a>
             </div>
 
             {{-- Carrito + botón sesión --}}
