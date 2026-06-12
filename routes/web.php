@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
@@ -22,6 +23,13 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/profile/foto', [ProfileController::class, 'actualizarFoto'])->name('profile.foto');
+
+    // Carrito
+    Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
+    Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
+    Route::post('/carrito/quitar', [CarritoController::class, 'quitar'])->name('carrito.quitar');
+    Route::get('/pago', [CarritoController::class, 'pago'])->name('carrito.pago');
+    Route::post('/pago/confirmar', [CarritoController::class, 'confirmar'])->name('carrito.confirmar');
 });
 
 // Rutas del administrador — protegidas con auth y es.admin

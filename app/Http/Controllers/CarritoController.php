@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Producto;
+use Illuminate\Http\Request;
+
+class CarritoController extends Controller
+{
+    public function index()
+    {
+        $carrito = session('carrito', []);
+        $total   = array_sum(array_map(fn($i) => $i['precio'] * $i['cantidad'], $carrito));
+        return view('carrito', compact('carrito', 'total'));
+    }
+
+    public function agregar(Request $request)
+    {
+        $producto = Producto::findOrFail($request->producto_id);
+        $carrito  = session('carrito', []);
+        $id       = $producto->id;
+
+        if (isset($carrito[$id])) {
+            $carrito[$id]['cantidad']++;
+        } else {
+            $carrito[$id] = [
+                'nombre'   => $producto->nombre,
+                'precio'   => $producto->precio,
+                'cantidad' => 1,
+                'imagen'   => $producto->imagen,
+            ];
+        }
+
+        session(['carrito' => $carrito]);
+        return back()->with('agregado', $producto->nombre);
+    }
+
+    public function quitar(Request $request)
+    {
+        $carrito = session('carrito', []);
+        unset($carrito[$request->producto_id]);
+        session(['carrito' => $carrito]);
+        return back();
+    }
+
+    public function pago()
+    {
+        $carrito = session('carrito', []);
+        if (empty($carrito)) {
+            return redirect()->route('catalogo');
+        }
+
+        $total      = array_sum(array_map(fn($i) => $i['precio'] * $i['cantidad'], $carrito));
+        $referencia = 'OXT-' . strtoupper(substr(md5(uniqid()), 0, 8));
+        session(['referencia_pago' => $referencia]);
+
+        return view('pago', compact('carrito', 'total', 'referencia'));
+    }
+
+    public function confirmar()
+    {
+        $referencia = session('referencia_pago', 'OXT-00000000');
+        session()->forget('carrito');
+        return view('pedido-confirmado', compact('referencia'));
+    }
+}

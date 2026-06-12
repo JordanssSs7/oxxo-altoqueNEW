@@ -1,6 +1,15 @@
 @extends('layouts.public')
 
 @section('contenido')
+
+{{-- Toast producto agregado --}}
+@if(session('agregado'))
+<div id="toast" style="position:fixed;top:80px;right:24px;z-index:200;background:#16a34a;color:white;padding:12px 20px;border-radius:10px;font-weight:600;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,.15);">
+    ✓ "{{ session('agregado') }}" agregado al carrito
+</div>
+<script>setTimeout(() => document.getElementById('toast')?.remove(), 3000)</script>
+@endif
+
 <div class="max-w-7xl mx-auto px-6 py-10">
 
     {{-- Encabezado --}}
@@ -66,10 +75,21 @@
                     </div>
 
                     {{-- Botón agregar --}}
+                    @auth
+                    <form method="POST" action="{{ route('carrito.agregar') }}">
+                        @csrf
+                        <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                        <button type="submit"
+                                style="width:100%;margin-top:12px;background:#dc2626;color:white;padding:8px 0;border-radius:8px;border:none;cursor:pointer;font-weight:600;">
+                            Agregar al carrito
+                        </button>
+                    </form>
+                    @else
                     <button onclick="pedirLogin()"
                             style="width:100%;margin-top:12px;background:#dc2626;color:white;padding:8px 0;border-radius:8px;border:none;cursor:pointer;font-weight:600;">
                         Agregar al carrito
                     </button>
+                    @endauth
                 </div>
             </div>
             @endif

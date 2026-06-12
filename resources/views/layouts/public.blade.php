@@ -25,18 +25,29 @@
                 <a href="#" class="hover:text-red-600 transition">Novedades</a>
             </div>
 
-            {{-- Botón de sesión --}}
-            @auth
+            {{-- Carrito + botón sesión --}}
+            <div class="flex items-center gap-3">
+                @auth
+                <a href="{{ route('carrito.index') }}" class="relative inline-flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 hover:bg-red-50 transition text-xl">
+                    🛒
+                    @php $cartCount = count(session('carrito', [])); @endphp
+                    @if($cartCount > 0)
+                    <span style="position:absolute;top:-4px;right:-4px;background:#dc2626;color:white;font-size:11px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                        {{ $cartCount }}
+                    </span>
+                    @endif
+                </a>
                 <a href="{{ route('dashboard') }}"
                    class="bg-red-600 text-white px-5 py-2 rounded-full font-semibold hover:bg-red-700 transition">
                     Mi cuenta
                 </a>
-            @else
+                @else
                 <a href="{{ route('login') }}"
                    class="bg-red-600 text-white px-5 py-2 rounded-full font-semibold hover:bg-red-700 transition">
                     Iniciar sesión
                 </a>
-            @endauth
+                @endauth
+            </div>
 
         </div>
     </nav>
