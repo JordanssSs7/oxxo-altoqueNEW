@@ -28,8 +28,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
     Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
     Route::post('/carrito/quitar', [CarritoController::class, 'quitar'])->name('carrito.quitar');
-    Route::get('/pago', [CarritoController::class, 'pago'])->name('carrito.pago');
-    Route::post('/pago/confirmar', [CarritoController::class, 'confirmar'])->name('carrito.confirmar');
+    Route::get('/pago', fn() => view('pago'))->name('carrito.pago');
+    Route::get('/pedido-confirmado', fn() => view('pedido-confirmado'))->name('carrito.confirmado');
 });
 
 // Rutas del administrador — protegidas con auth y es.admin

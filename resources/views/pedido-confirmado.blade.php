@@ -3,7 +3,7 @@
 @section('contenido')
 <div class="max-w-lg mx-auto px-6 py-16 text-center">
 
-    {{-- Check animado --}}
+    {{-- Check --}}
     <div style="width:80px;height:80px;background:#dcfce7;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:40px;">
         ✅
     </div>
@@ -14,12 +14,12 @@
     {{-- Código --}}
     <div class="bg-yellow-50 border border-yellow-200 rounded-xl px-6 py-3 inline-block mb-8">
         <p class="text-xs text-yellow-600 font-medium mb-1">Código de pedido</p>
-        <p class="font-black text-xl tracking-widest text-gray-900">{{ $referencia }}</p>
+        <p class="font-black text-xl tracking-widest text-gray-900">OXT-A1B2C3D4</p>
     </div>
 
-    {{-- QR --}}
+    {{-- QR estático --}}
     <div class="bg-white rounded-2xl shadow-md p-8 mb-8 inline-block">
-        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data={{ $referencia }}&color=dc2626"
+        <img src="{{ asset('images/qr-ejemplo.png') }}"
              alt="Código QR del pedido"
              class="w-48 h-48 mx-auto block">
         <p class="text-xs text-gray-400 mt-4">Escanea en caja OXXO</p>
