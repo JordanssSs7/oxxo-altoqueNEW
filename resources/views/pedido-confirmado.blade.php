@@ -19,7 +19,7 @@
 
     {{-- QR estático --}}
     <div class="bg-white rounded-2xl shadow-md p-8 mb-8 inline-block">
-        <img src="{{ asset('images/qr-ejemplo.png') }}"
+        <img src="{{ asset('images/qr-ejemplo.jpeg') }}"
              alt="Código QR del pedido"
              class="w-48 h-48 mx-auto block">
         <p class="text-xs text-gray-400 mt-4">Escanea en caja OXXO</p>
