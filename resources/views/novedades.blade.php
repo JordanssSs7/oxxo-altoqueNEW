@@ -17,7 +17,7 @@
             <h2 style="color:white;font-size:28px;font-weight:900;margin:6px 0;">Nuevos productos este mes</h2>
             <p style="color:rgba(255,255,255,0.7);font-size:14px;">Descubre las últimas incorporaciones al catálogo OXXO</p>
         </div>
-        <div style="font-size:72px;">✨</div>
+        <div></div>
     </div>
 
     {{-- Grid de novedades --}}
@@ -26,7 +26,7 @@
         {{-- Producto 1 --}}
         <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden relative">
             <span style="position:absolute;top:12px;left:12px;background:#16a34a;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">NUEVO</span>
-            <div class="w-full h-48 bg-pink-50 flex items-center justify-center text-6xl">🧃</div>
+            <div class="w-full h-48 bg-gray-100"></div>
             <div class="p-4">
                 <span class="text-xs text-red-500 font-semibold uppercase">Bebidas</span>
                 <h3 class="font-semibold text-gray-800 mt-1">Sporade Maracuyá 500ml</h3>
@@ -44,7 +44,7 @@
         {{-- Producto 2 --}}
         <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden relative">
             <span style="position:absolute;top:12px;left:12px;background:#16a34a;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">NUEVO</span>
-            <div class="w-full h-48 bg-yellow-50 flex items-center justify-center text-6xl">🥐</div>
+            <div class="w-full h-48 bg-gray-100"></div>
             <div class="p-4">
                 <span class="text-xs text-red-500 font-semibold uppercase">Panadería</span>
                 <h3 class="font-semibold text-gray-800 mt-1">Croissant de Mantequilla</h3>
@@ -62,7 +62,7 @@
         {{-- Producto 3 --}}
         <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden relative">
             <span style="position:absolute;top:12px;left:12px;background:#16a34a;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">NUEVO</span>
-            <div class="w-full h-48 bg-indigo-50 flex items-center justify-center text-6xl">🧴</div>
+            <div class="w-full h-48 bg-gray-100"></div>
             <div class="p-4">
                 <span class="text-xs text-red-500 font-semibold uppercase">Higiene</span>
                 <h3 class="font-semibold text-gray-800 mt-1">Desodorante Rexona 150ml</h3>
@@ -80,7 +80,7 @@
         {{-- Producto 4 --}}
         <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden relative">
             <span style="position:absolute;top:12px;left:12px;background:#16a34a;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">NUEVO</span>
-            <div class="w-full h-48 bg-orange-50 flex items-center justify-center text-6xl">🍫</div>
+            <div class="w-full h-48 bg-gray-100"></div>
             <div class="p-4">
                 <span class="text-xs text-red-500 font-semibold uppercase">Snacks</span>
                 <h3 class="font-semibold text-gray-800 mt-1">Queque Marmoleado 90g</h3>
@@ -98,7 +98,7 @@
         {{-- Producto 5 --}}
         <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden relative">
             <span style="position:absolute;top:12px;left:12px;background:#16a34a;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">NUEVO</span>
-            <div class="w-full h-48 bg-teal-50 flex items-center justify-center text-6xl">🧀</div>
+            <div class="w-full h-48 bg-gray-100"></div>
             <div class="p-4">
                 <span class="text-xs text-red-500 font-semibold uppercase">Lácteos</span>
                 <h3 class="font-semibold text-gray-800 mt-1">Queso Fresco Laive 250g</h3>
@@ -116,7 +116,7 @@
         {{-- Producto 6 --}}
         <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden relative">
             <span style="position:absolute;top:12px;left:12px;background:#16a34a;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">NUEVO</span>
-            <div class="w-full h-48 bg-sky-50 flex items-center justify-center text-6xl">🫙</div>
+            <div class="w-full h-48 bg-gray-100"></div>
             <div class="p-4">
                 <span class="text-xs text-red-500 font-semibold uppercase">Limpieza</span>
                 <h3 class="font-semibold text-gray-800 mt-1">Limpiatodo Sapolio 500ml</h3>

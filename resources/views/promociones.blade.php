@@ -17,7 +17,7 @@
             <h2 style="color:white;font-size:28px;font-weight:900;margin:6px 0;">Hasta 30% de descuento</h2>
             <p style="color:rgba(255,255,255,0.8);font-size:14px;">En bebidas, snacks y lácteos seleccionados</p>
         </div>
-        <div style="font-size:72px;">🏷️</div>
+        <div style="font-size:72px;"></div>
     </div>
 
     {{-- Grid de productos en oferta --}}
@@ -26,7 +26,7 @@
         {{-- Producto 1 --}}
         <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden relative">
             <span style="position:absolute;top:12px;left:12px;background:#dc2626;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">-20%</span>
-            <div class="w-full h-48 bg-red-50 flex items-center justify-center text-6xl">🥤</div>
+            <div class="w-full h-48 bg-gray-100"></div>
             <div class="p-4">
                 <span class="text-xs text-red-500 font-semibold uppercase">Bebidas</span>
                 <h3 class="font-semibold text-gray-800 mt-1">Gaseosa Inca Kola 500ml</h3>
@@ -43,7 +43,7 @@
         {{-- Producto 2 --}}
         <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden relative">
             <span style="position:absolute;top:12px;left:12px;background:#dc2626;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">-15%</span>
-            <div class="w-full h-48 bg-yellow-50 flex items-center justify-center text-6xl">🍟</div>
+            <div class="w-full h-48 bg-gray-100"></div>
             <div class="p-4">
                 <span class="text-xs text-red-500 font-semibold uppercase">Snacks</span>
                 <h3 class="font-semibold text-gray-800 mt-1">Papas Lays Clásicas 38g</h3>
@@ -60,7 +60,7 @@
         {{-- Producto 3 --}}
         <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden relative">
             <span style="position:absolute;top:12px;left:12px;background:#dc2626;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">-25%</span>
-            <div class="w-full h-48 bg-blue-50 flex items-center justify-center text-6xl">🥛</div>
+            <div class="w-full h-48 bg-gray-100"></div>
             <div class="p-4">
                 <span class="text-xs text-red-500 font-semibold uppercase">Lácteos</span>
                 <h3 class="font-semibold text-gray-800 mt-1">Leche Gloria Entera 1L</h3>
@@ -77,7 +77,7 @@
         {{-- Producto 4 --}}
         <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden relative">
             <span style="position:absolute;top:12px;left:12px;background:#dc2626;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">-10%</span>
-            <div class="w-full h-48 bg-green-50 flex items-center justify-center text-6xl">🚿</div>
+            <div class="w-full h-48 bg-gray-100"></div>
             <div class="p-4">
                 <span class="text-xs text-red-500 font-semibold uppercase">Higiene</span>
                 <h3 class="font-semibold text-gray-800 mt-1">Jabón Dove Original 90g</h3>
@@ -94,7 +94,7 @@
         {{-- Producto 5 --}}
         <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden relative">
             <span style="position:absolute;top:12px;left:12px;background:#dc2626;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">-30%</span>
-            <div class="w-full h-48 bg-orange-50 flex items-center justify-center text-6xl">🍪</div>
+            <div class="w-full h-48 bg-gray-100"></div>
             <div class="p-4">
                 <span class="text-xs text-red-500 font-semibold uppercase">Snacks</span>
                 <h3 class="font-semibold text-gray-800 mt-1">Galletas Oreo 6 unidades</h3>
@@ -111,7 +111,7 @@
         {{-- Producto 6 --}}
         <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden relative">
             <span style="position:absolute;top:12px;left:12px;background:#dc2626;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">-18%</span>
-            <div class="w-full h-48 bg-purple-50 flex items-center justify-center text-6xl">🧴</div>
+            <div class="w-full h-48 bg-gray-100"></div>
             <div class="p-4">
                 <span class="text-xs text-red-500 font-semibold uppercase">Higiene</span>
                 <h3 class="font-semibold text-gray-800 mt-1">Champú Head & Shoulders 200ml</h3>
@@ -128,7 +128,7 @@
         {{-- Producto 7 --}}
         <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden relative">
             <span style="position:absolute;top:12px;left:12px;background:#dc2626;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">-12%</span>
-            <div class="w-full h-48 bg-cyan-50 flex items-center justify-center text-6xl">💧</div>
+            <div class="w-full h-48 bg-gray-100"></div>
             <div class="p-4">
                 <span class="text-xs text-red-500 font-semibold uppercase">Bebidas</span>
                 <h3 class="font-semibold text-gray-800 mt-1">Agua San Luis 625ml</h3>
@@ -145,7 +145,7 @@
         {{-- Producto 8 --}}
         <div class="bg-white rounded-2xl shadow hover:shadow-lg transition overflow-hidden relative">
             <span style="position:absolute;top:12px;left:12px;background:#dc2626;color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">-22%</span>
-            <div class="w-full h-48 bg-lime-50 flex items-center justify-center text-6xl">🧼</div>
+            <div class="w-full h-48 bg-gray-100"></div>
             <div class="p-4">
                 <span class="text-xs text-red-500 font-semibold uppercase">Limpieza</span>
                 <h3 class="font-semibold text-gray-800 mt-1">Lejía Clorox 500ml</h3>
