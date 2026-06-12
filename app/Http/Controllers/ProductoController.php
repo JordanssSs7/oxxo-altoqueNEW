@@ -23,6 +23,24 @@ class ProductoController extends Controller
         }
     }
 
+    public function promociones()
+    {
+        $descuentos = [10, 15, 20, 25, 30, 12, 18, 22];
+        $productos  = Producto::with('categoria')->take(8)->get()
+                        ->map(function ($p, $i) use ($descuentos) {
+                            $p->descuento      = $descuentos[$i % count($descuentos)];
+                            $p->precio_oferta  = round($p->precio * (1 - $p->descuento / 100), 2);
+                            return $p;
+                        });
+        return view('promociones', compact('productos'));
+    }
+
+    public function novedades()
+    {
+        $productos = Producto::with('categoria')->latest()->take(6)->get();
+        return view('novedades', compact('productos'));
+    }
+
     // Lista todos los productos
     public function index()
     {

@@ -13,8 +13,8 @@ Route::get('/', function () {
 Route::get('/catalogo', [ProductoController::class, 'catalogo'])->name('catalogo');
 Route::get('/terminos', fn() => view('terminos'))->name('terminos');
 Route::get('/privacidad', fn() => view('privacidad'))->name('privacidad');
-Route::get('/promociones', fn() => view('promociones'))->name('promociones');
-Route::get('/novedades', fn() => view('novedades'))->name('novedades');
+Route::get('/promociones', [ProductoController::class, 'promociones'])->name('promociones');
+Route::get('/novedades', [ProductoController::class, 'novedades'])->name('novedades');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
