@@ -23,7 +23,7 @@
         {{-- Lista de productos --}}
         <div class="col-span-2 space-y-4">
             @foreach($carrito as $id => $item)
-            <div class="bg-white rounded-2xl shadow p-4 flex items-center gap-4">
+            <div id="fila-{{ $id }}" class="bg-white rounded-2xl shadow p-4 flex items-center gap-4">
 
                 {{-- Imagen --}}
                 @if($item['imagen'])
@@ -38,34 +38,22 @@
                 <div class="flex-1">
                     <p class="font-semibold text-gray-800">{{ $item['nombre'] }}</p>
                     <p class="text-sm text-gray-400">S/. {{ number_format($item['precio'], 2) }} c/u</p>
-                    <p class="text-sm font-semibold text-red-600 mt-1">
+                    <p id="subtotal-{{ $id }}" class="text-sm font-semibold text-red-600 mt-1">
                         Subtotal: S/. {{ number_format($item['precio'] * $item['cantidad'], 2) }}
                     </p>
                 </div>
 
                 {{-- Cantidad con controles --}}
-                <div class="flex items-center gap-2">
-                    {{-- Decrementar --}}
-                    <form method="POST" action="{{ route('carrito.decrementar') }}">
-                        @csrf
-                        <input type="hidden" name="producto_id" value="{{ $id }}">
-                        <button type="submit"
-                                style="width:30px;height:30px;border-radius:50%;border:1px solid #e5e7eb;background:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
-                            −
-                        </button>
-                    </form>
-
-                    <span class="text-lg font-bold text-gray-800 w-6 text-center">{{ $item['cantidad'] }}</span>
-
-                    {{-- Incrementar --}}
-                    <form method="POST" action="{{ route('carrito.incrementar') }}">
-                        @csrf
-                        <input type="hidden" name="producto_id" value="{{ $id }}">
-                        <button type="submit"
-                                style="width:30px;height:30px;border-radius:50%;border:1px solid #e5e7eb;background:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
-                            +
-                        </button>
-                    </form>
+                <div class="flex items-center gap-2" id="controles-{{ $id }}">
+                    <button onclick="cambiarCantidad({{ $id }}, 'decrementar')"
+                            style="width:30px;height:30px;border-radius:50%;border:1px solid #e5e7eb;background:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                        −
+                    </button>
+                    <span id="cantidad-{{ $id }}" class="text-lg font-bold text-gray-800 w-6 text-center">{{ $item['cantidad'] }}</span>
+                    <button onclick="cambiarCantidad({{ $id }}, 'incrementar')"
+                            style="width:30px;height:30px;border-radius:50%;border:1px solid #e5e7eb;background:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                        +
+                    </button>
                 </div>
 
                 {{-- Quitar --}}
@@ -92,17 +80,17 @@
                 <h2 class="font-semibold text-gray-700 mb-4 text-lg">Resumen</h2>
 
                 <div class="space-y-2 text-sm text-gray-500 mb-4">
-                    @foreach($carrito as $item)
-                    <div class="flex justify-between">
-                        <span>{{ $item['nombre'] }} ×{{ $item['cantidad'] }}</span>
-                        <span>S/. {{ number_format($item['precio'] * $item['cantidad'], 2) }}</span>
+                    @foreach($carrito as $resId => $item)
+                    <div id="resumen-{{ $resId }}" class="flex justify-between">
+                        <span>{{ $item['nombre'] }} ×<span id="res-cant-{{ $resId }}">{{ $item['cantidad'] }}</span></span>
+                        <span id="res-sub-{{ $resId }}">S/. {{ number_format($item['precio'] * $item['cantidad'], 2) }}</span>
                     </div>
                     @endforeach
                 </div>
 
                 <div class="border-t border-gray-100 pt-4 mb-6 flex justify-between font-bold text-gray-800 text-lg">
                     <span>Total</span>
-                    <span>S/. {{ number_format($total, 2) }}</span>
+                    <span id="total-carrito">S/. {{ number_format($total, 2) }}</span>
                 </div>
 
                 <a href="{{ route('carrito.pago') }}"
@@ -116,4 +104,31 @@
     @endif
 
 </div>
+<script>
+const token = '{{ csrf_token() }}';
+
+function cambiarCantidad(id, accion) {
+    fetch(`/carrito/${accion}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': token },
+        body: JSON.stringify({ producto_id: id })
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.eliminado) {
+            document.getElementById('fila-' + id).remove();
+            document.getElementById('resumen-' + id)?.remove();
+        } else {
+            document.getElementById('cantidad-' + id).textContent   = data.cantidad;
+            document.getElementById('subtotal-' + id).textContent   = 'Subtotal: S/. ' + data.subtotal;
+            document.getElementById('res-cant-' + id).textContent   = data.cantidad;
+            document.getElementById('res-sub-' + id).textContent    = 'S/. ' + data.subtotal;
+        }
+        document.getElementById('total-carrito').textContent = 'S/. ' + data.total;
+        document.getElementById('badge-carrito').textContent = data.count;
+        if (data.count === 0) location.reload();
+    });
+}
+</script>
+
 @endsection

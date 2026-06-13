@@ -32,7 +32,7 @@
                     🛒
                     @php $cartCount = count(session('carrito', [])); @endphp
                     @if($cartCount > 0)
-                    <span style="position:absolute;top:-4px;right:-4px;background:#dc2626;color:white;font-size:11px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;">
+                    <span id="badge-carrito" style="position:absolute;top:-4px;right:-4px;background:#dc2626;color:white;font-size:11px;font-weight:700;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;">
                         {{ $cartCount }}
                     </span>
                     @endif

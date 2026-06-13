@@ -51,21 +51,36 @@ class CarritoController extends Controller
             $carrito[$id]['cantidad']++;
             session(['carrito' => $carrito]);
         }
-        return back();
+        $total = number_format(array_sum(array_map(fn($i) => $i['precio'] * $i['cantidad'], $carrito)), 2);
+        return response()->json([
+            'cantidad' => $carrito[$id]['cantidad'],
+            'subtotal' => number_format($carrito[$id]['precio'] * $carrito[$id]['cantidad'], 2),
+            'total'    => $total,
+            'count'    => count($carrito),
+        ]);
     }
 
     public function decrementar(Request $request)
     {
         $carrito = session('carrito', []);
         $id = $request->producto_id;
+        $eliminado = false;
         if (isset($carrito[$id])) {
             $carrito[$id]['cantidad']--;
             if ($carrito[$id]['cantidad'] <= 0) {
                 unset($carrito[$id]);
+                $eliminado = true;
             }
             session(['carrito' => $carrito]);
         }
-        return back();
+        $total = number_format(array_sum(array_map(fn($i) => $i['precio'] * $i['cantidad'], $carrito)), 2);
+        return response()->json([
+            'cantidad'  => $eliminado ? 0 : $carrito[$id]['cantidad'],
+            'subtotal'  => $eliminado ? '0.00' : number_format($carrito[$id]['precio'] * $carrito[$id]['cantidad'], 2),
+            'total'     => $total,
+            'count'     => count($carrito),
+            'eliminado' => $eliminado,
+        ]);
     }
 
     public function pago()
