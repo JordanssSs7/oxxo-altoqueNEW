@@ -30,6 +30,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
     Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
     Route::post('/carrito/quitar', [CarritoController::class, 'quitar'])->name('carrito.quitar');
+    Route::post('/carrito/incrementar', [CarritoController::class, 'incrementar'])->name('carrito.incrementar');
+    Route::post('/carrito/decrementar', [CarritoController::class, 'decrementar'])->name('carrito.decrementar');
     Route::get('/pago', fn() => view('pago'))->name('carrito.pago');
     Route::get('/pedido-confirmado', fn() => view('pedido-confirmado'))->name('carrito.confirmado');
 });

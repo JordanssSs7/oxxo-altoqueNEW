@@ -43,6 +43,31 @@ class CarritoController extends Controller
         return back();
     }
 
+    public function incrementar(Request $request)
+    {
+        $carrito = session('carrito', []);
+        $id = $request->producto_id;
+        if (isset($carrito[$id])) {
+            $carrito[$id]['cantidad']++;
+            session(['carrito' => $carrito]);
+        }
+        return back();
+    }
+
+    public function decrementar(Request $request)
+    {
+        $carrito = session('carrito', []);
+        $id = $request->producto_id;
+        if (isset($carrito[$id])) {
+            $carrito[$id]['cantidad']--;
+            if ($carrito[$id]['cantidad'] <= 0) {
+                unset($carrito[$id]);
+            }
+            session(['carrito' => $carrito]);
+        }
+        return back();
+    }
+
     public function pago()
     {
         $carrito = session('carrito', []);

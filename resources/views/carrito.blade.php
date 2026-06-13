@@ -43,10 +43,29 @@
                     </p>
                 </div>
 
-                {{-- Cantidad --}}
-                <div class="flex flex-col items-center gap-1">
-                    <span class="text-xs text-gray-400">Cant.</span>
-                    <span class="text-xl font-bold text-gray-800">{{ $item['cantidad'] }}</span>
+                {{-- Cantidad con controles --}}
+                <div class="flex items-center gap-2">
+                    {{-- Decrementar --}}
+                    <form method="POST" action="{{ route('carrito.decrementar') }}">
+                        @csrf
+                        <input type="hidden" name="producto_id" value="{{ $id }}">
+                        <button type="submit"
+                                style="width:30px;height:30px;border-radius:50%;border:1px solid #e5e7eb;background:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                            −
+                        </button>
+                    </form>
+
+                    <span class="text-lg font-bold text-gray-800 w-6 text-center">{{ $item['cantidad'] }}</span>
+
+                    {{-- Incrementar --}}
+                    <form method="POST" action="{{ route('carrito.incrementar') }}">
+                        @csrf
+                        <input type="hidden" name="producto_id" value="{{ $id }}">
+                        <button type="submit"
+                                style="width:30px;height:30px;border-radius:50%;border:1px solid #e5e7eb;background:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                            +
+                        </button>
+                    </form>
                 </div>
 
                 {{-- Quitar --}}
@@ -55,7 +74,7 @@
                     <input type="hidden" name="producto_id" value="{{ $id }}">
                     <button type="submit"
                             class="text-gray-300 hover:text-red-500 transition text-2xl font-light leading-none"
-                            title="Quitar">
+                            title="Eliminar">
                         &times;
                     </button>
                 </form>
