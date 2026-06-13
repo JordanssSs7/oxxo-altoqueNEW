@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('admin.categorias.index');
         }
 
-        return redirect()->route('catalogo');
+        return redirect()->route('home');
     }
 
     /**
