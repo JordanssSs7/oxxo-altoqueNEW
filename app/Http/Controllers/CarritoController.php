@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class CarritoController extends Controller
 {
@@ -130,8 +131,23 @@ class CarritoController extends Controller
 
         $total      = session('total_pedido', 0);
         $yapePhone  = config('services.yape.phone');
+        $monto      = number_format($total, 2, '.', '');
+        $yapeLink   = 'https://app.yape.com.pe/send-money?number=' . $yapePhone
+                    . '&amount=' . $monto
+                    . '&concept=OXXO+Al+Toque+' . $referencia;
+        $qrContenido = $yapePhone
+            ? $yapeLink
+            : "OXXO AL TOQUE\nPedido: {$referencia}\nMonto: S/. {$monto}\nSucursal: {$sucursal['nombre']}";
 
-        return view('pedido-confirmado', compact('referencia', 'sucursal', 'total', 'yapePhone'));
+        $qrPago = QrCode::format('svg')
+            ->size(240)
+            ->margin(2)
+            ->errorCorrection('H')
+            ->color(91, 33, 182)
+            ->backgroundColor(255, 255, 255)
+            ->generate($qrContenido);
+
+        return view('pedido-confirmado', compact('referencia', 'sucursal', 'total', 'yapePhone', 'yapeLink', 'qrPago'));
     }
 
     public static function listaSucursales(): array
