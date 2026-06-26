@@ -94,13 +94,54 @@ class CarritoController extends Controller
         $referencia = 'OXT-' . strtoupper(substr(md5(uniqid()), 0, 8));
         session(['referencia_pago' => $referencia]);
 
-        return view('pago', compact('carrito', 'total', 'referencia'));
+        $sucursales = $this->listaSucursales();
+        return view('pago', compact('carrito', 'total', 'referencia', 'sucursales'));
     }
 
-    public function confirmar()
+    public function confirmar(Request $request)
+    {
+        $request->validate(['sucursal_id' => 'required|integer|between:1,5']);
+
+        $sucursales = $this->listaSucursales();
+        $sucursal   = $sucursales[$request->sucursal_id] ?? null;
+
+        if (!$sucursal) {
+            return back()->withErrors(['sucursal_id' => 'Selecciona una sucursal válida.']);
+        }
+
+        $carrito = session('carrito', []);
+        $total   = array_sum(array_map(fn($i) => $i['precio'] * $i['cantidad'], $carrito));
+
+        session(['sucursal_pedido' => $sucursal]);
+        session(['total_pedido'    => $total]);
+        session()->forget('carrito');
+
+        return redirect()->route('carrito.confirmado');
+    }
+
+    public function confirmado()
     {
         $referencia = session('referencia_pago', 'OXT-00000000');
-        session()->forget('carrito');
-        return view('pedido-confirmado', compact('referencia'));
+        $sucursal   = session('sucursal_pedido');
+
+        if (!$sucursal) {
+            return redirect()->route('catalogo');
+        }
+
+        $total      = session('total_pedido', 0);
+        $yapePhone  = config('services.yape.phone');
+
+        return view('pedido-confirmado', compact('referencia', 'sucursal', 'total', 'yapePhone'));
+    }
+
+    public static function listaSucursales(): array
+    {
+        return [
+            1 => ['nombre' => 'OXXO Miraflores', 'distrito' => 'Miraflores, Lima',        'direccion' => 'Av. Larco 345, Miraflores',             'horario' => 'Lun–Dom 7:00 am – 11:00 pm',  'lat' => -12.1211, 'lng' => -77.0282, 'telefono' => '(01) 234-5678'],
+            2 => ['nombre' => 'OXXO San Isidro',  'distrito' => 'San Isidro, Lima',        'direccion' => 'Calle Los Libertadores 120, San Isidro', 'horario' => 'Lun–Dom 6:30 am – 11:30 pm', 'lat' => -12.0964, 'lng' => -77.0432, 'telefono' => '(01) 345-6789'],
+            3 => ['nombre' => 'OXXO Surco',        'distrito' => 'Santiago de Surco, Lima', 'direccion' => 'Av. Primavera 890, Surco',              'horario' => 'Lun–Dom 7:00 am – 12:00 am',  'lat' => -12.1226, 'lng' => -76.9924, 'telefono' => '(01) 456-7890'],
+            4 => ['nombre' => 'OXXO Barranco',     'distrito' => 'Barranco, Lima',          'direccion' => 'Av. Grau 210, Barranco',                'horario' => 'Lun–Dom 8:00 am – 10:00 pm',  'lat' => -12.1491, 'lng' => -77.0219, 'telefono' => '(01) 567-8901'],
+            5 => ['nombre' => 'OXXO San Borja',    'distrito' => 'San Borja, Lima',         'direccion' => 'Av. San Luis 1850, San Borja',          'horario' => 'Lun–Dom 7:00 am – 11:00 pm',  'lat' => -12.1015, 'lng' => -76.9980, 'telefono' => '(01) 678-9012'],
+        ];
     }
 }
