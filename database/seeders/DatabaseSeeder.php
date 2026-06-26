@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CategoriaSeeder::class,
             ProductoSeeder::class,
+            SucursalSeeder::class,
         ]);
     }
 }

@@ -9,12 +9,11 @@
         <p class="text-gray-400 mt-1">Encuentra la tienda más cercana y recoge tu pedido</p>
     </div>
 
-    {{-- Buscador decorativo --}}
+    {{-- Buscador ya no decorativo pe --}}
     <div class="bg-white rounded-2xl shadow p-4 flex gap-3 mb-10 max-w-xl">
-        <input type="text" placeholder="Buscar por distrito o dirección..."
-               class="flex-1 text-sm text-gray-700 outline-none px-2"
-               disabled>
-        <button style="background:#dc2626;color:white;padding:8px 20px;border-radius:8px;font-size:14px;font-weight:600;border:none;cursor:not-allowed;opacity:.7;">
+        <input type="text" id="buscarSucursal" placeholder="Buscar por distrito o dirección..."
+               class="flex-1 text-sm text-gray-700 outline-none px-2">
+        <button type="button" id="btnBuscarSucursal"style="background:#dc2626;color:white;padding:8px 20px;border-radius:8px;font-size:14px;font-weight:600;border:none;cursor:pointer;">
             Buscar
         </button>
     </div>
@@ -22,83 +21,36 @@
     {{-- Grid de sucursales --}}
     <div class="grid grid-cols-3 gap-6">
 
-        <div class="bg-white rounded-2xl shadow hover:shadow-md transition p-6">
-            <div class="flex items-start justify-between mb-3">
-                <div>
-                    <h3 class="font-bold text-gray-800">OXXO Miraflores</h3>
-                    <p class="text-xs text-red-500 font-semibold mt-1">Miraflores, Lima</p>
-                </div>
-                <span style="background:#dcfce7;color:#16a34a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">Abierto</span>
-            </div>
-            <p class="text-sm text-gray-500 mb-1">📍 Av. Larco 345, Miraflores</p>
-            <p class="text-sm text-gray-500 mb-1">🕐 Lun–Dom: 7:00 am – 11:00 pm</p>
-            <p class="text-sm text-gray-500">📞 (01) 234-5678</p>
-        </div>
+        @forelse ($sucursales as $sucursal)
+            @php
+                $estadoColor = match ($sucursal->estado) {
+                    'Abierto' => 'background:#dcfce7;color:#16a34a;',
+                    'Cerrado' => 'background:#fee2e2;color:#dc2626;',
+                    default => 'background:#fef9c3;color:#ca8a04;',
+                };
+            @endphp
 
-        <div class="bg-white rounded-2xl shadow hover:shadow-md transition p-6">
-            <div class="flex items-start justify-between mb-3">
-                <div>
-                    <h3 class="font-bold text-gray-800">OXXO San Isidro</h3>
-                    <p class="text-xs text-red-500 font-semibold mt-1">San Isidro, Lima</p>
-                </div>
-                <span style="background:#dcfce7;color:#16a34a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">Abierto</span>
-            </div>
-            <p class="text-sm text-gray-500 mb-1">📍 Calle Los Libertadores 120, San Isidro</p>
-            <p class="text-sm text-gray-500 mb-1">🕐 Lun–Dom: 6:30 am – 11:30 pm</p>
-            <p class="text-sm text-gray-500">📞 (01) 345-6789</p>
-        </div>
+            <div class="sucursal-card bg-white rounded-2xl shadow hover:shadow-md transition p-6"data-busqueda="{{ strtolower($sucursal->nombre . ' ' . $sucursal->distrito . ' ' . $sucursal->direccion) }}">
+                <div class="flex items-start justify-between mb-3">
+                    <div>
+                        <h3 class="font-bold text-gray-800">{{ $sucursal->nombre }}</h3>
+                        <p class="text-xs text-red-500 font-semibold mt-1">{{ $sucursal->distrito }}</p>
+                    </div>
 
-        <div class="bg-white rounded-2xl shadow hover:shadow-md transition p-6">
-            <div class="flex items-start justify-between mb-3">
-                <div>
-                    <h3 class="font-bold text-gray-800">OXXO Surco</h3>
-                    <p class="text-xs text-red-500 font-semibold mt-1">Santiago de Surco, Lima</p>
+                    <span style="{{ $estadoColor }}font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">
+                        {{ $sucursal->estado }}
+                    </span>
                 </div>
-                <span style="background:#dcfce7;color:#16a34a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">Abierto</span>
-            </div>
-            <p class="text-sm text-gray-500 mb-1">📍 Av. Primavera 890, Surco</p>
-            <p class="text-sm text-gray-500 mb-1">🕐 Lun–Dom: 7:00 am – 12:00 am</p>
-            <p class="text-sm text-gray-500">📞 (01) 456-7890</p>
-        </div>
 
-        <div class="bg-white rounded-2xl shadow hover:shadow-md transition p-6">
-            <div class="flex items-start justify-between mb-3">
-                <div>
-                    <h3 class="font-bold text-gray-800">OXXO Barranco</h3>
-                    <p class="text-xs text-red-500 font-semibold mt-1">Barranco, Lima</p>
-                </div>
-                <span style="background:#dcfce7;color:#16a34a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">Abierto</span>
+                <p class="text-sm text-gray-500 mb-1">Direccion: {{ $sucursal->direccion }}</p>
+                <p class="text-sm text-gray-500 mb-1">Horario: {{ $sucursal->horario }}</p>
+                <p class="text-sm text-gray-500">Telefono: {{ $sucursal->telefono ?? '-' }}</p>
             </div>
-            <p class="text-sm text-gray-500 mb-1">📍 Av. Grau 210, Barranco</p>
-            <p class="text-sm text-gray-500 mb-1">🕐 Lun–Dom: 8:00 am – 10:00 pm</p>
-            <p class="text-sm text-gray-500">📞 (01) 567-8901</p>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow hover:shadow-md transition p-6">
-            <div class="flex items-start justify-between mb-3">
-                <div>
-                    <h3 class="font-bold text-gray-800">OXXO San Borja</h3>
-                    <p class="text-xs text-red-500 font-semibond mt-1">San Borja, Lima</p>
-                </div>
-                <span style="background:#dcfce7;color:#16a34a;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">Abierto</span>
+        @empty
+            <div class="col-span-3 bg-white rounded-2xl shadow p-8 text-center text-gray-400">
+                No hay sucursales registradas aun.
             </div>
-            <p class="text-sm text-gray-500 mb-1">📍 Av. San Luis 1850, San Borja</p>
-            <p class="text-sm text-gray-500 mb-1">🕐 Lun–Dom: 7:00 am – 11:00 pm</p>
-            <p class="text-sm text-gray-500">📞 (01) 678-9012</p>
-        </div>
-
-        <div class="bg-white rounded-2xl shadow hover:shadow-md transition p-6">
-            <div class="flex items-start justify-between mb-3">
-                <div>
-                    <h3 class="font-bold text-gray-800">OXXO La Molina</h3>
-                    <p class="text-xs text-red-500 font-semibold mt-1">La Molina, Lima</p>
-                </div>
-                <span style="background:#fef9c3;color:#ca8a04;font-size:11px;font-weight:700;padding:3px 10px;border-radius:999px;">Próximamente</span>
-            </div>
-            <p class="text-sm text-gray-500 mb-1">📍 Av. La Molina 560, La Molina</p>
-            <p class="text-sm text-gray-500 mb-1">🕐 Lun–Dom: 7:00 am – 11:00 pm</p>
-            <p class="text-sm text-gray-500">📞 —</p>
-        </div>
+        @endforelse
 
     </div>
 
@@ -108,4 +60,31 @@
     </p>
 
 </div>
+<script>
+    const inputBuscar = document.getElementById('buscarSucursal');
+    const btnBuscar = document.getElementById('btnBuscarSucursal');
+    const sucursales = document.querySelectorAll('.sucursal-card');
+
+    function filtrarSucursales() {
+        const texto = inputBuscar.value.toLowerCase().trim();
+
+        sucursales.forEach(function (card) {
+            const datos = card.getAttribute('data-busqueda');
+
+            if (datos.includes(texto)) {
+                card.style.display = '';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    btnBuscar.addEventListener('click', filtrarSucursales);
+
+    inputBuscar.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            filtrarSucursales();
+        }
+    });
+</script>
 @endsection

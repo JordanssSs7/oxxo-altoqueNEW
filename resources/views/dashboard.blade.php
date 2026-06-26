@@ -66,6 +66,10 @@
                        style="flex:1;display:block;padding:12px 14px;background:#f9fafb;border-radius:8px;text-decoration:none;color:#374151;font-size:14px;font-weight:500;text-align:center;">
                         📦 Productos
                     </a>
+                    <a href="{{ route('admin.sucursales.index') }}"
+                       style="flex:1;display:block;padding:12px 14px;background:#f9fafb;border-radius:8px;text-decoration:none;color:#374151;font-size:14px;font-weight:500;text-align:center;">
+                        🏪 Sucursales
+</a>
                 </div>
             </div>
             @endif
