@@ -2,12 +2,6 @@
 
 @section('contenido')
 
-@php
-    $yapeLink = 'https://app.yape.com.pe/send-money?number=' . $yapePhone
-                . '&amount=' . number_format($total, 2)
-                . '&concept=OXXO+Al+Toque+' . $referencia;
-@endphp
-
 <div class="max-w-lg mx-auto px-6 py-16 text-center">
 
     {{-- Check --}}
@@ -32,7 +26,9 @@
 
     {{-- QR Yape dinámico --}}
     <div class="bg-white rounded-2xl shadow-md p-8 mb-6 inline-block">
-        <canvas id="yape-qr" style="display:block;margin:0 auto;border-radius:8px;"></canvas>
+        <div style="display:block;margin:0 auto;border-radius:8px;overflow:hidden;width:240px;height:240px;">
+            {!! $qrPago !!}
+        </div>
         <p class="text-xs text-gray-400 mt-4">📱 Abre Yape → Escanear → apunta aquí</p>
     </div>
 
@@ -84,12 +80,14 @@
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+{{-- QR generado ahora desde Laravel con Simple QrCode; se conserva el script anterior sin ejecutarlo. --}}
+{{--
 <script>
 (function () {
     const yapeLink = @json($yapeLink);
     const total    = @json(number_format($total, 2));
     const canvas   = document.getElementById('yape-qr');
+    if (!canvas) return;
 
     QRCode.toCanvas(canvas, yapeLink, {
         width                : 220,
@@ -133,5 +131,6 @@
     }
 })();
 </script>
+--}}
 
 @endsection
