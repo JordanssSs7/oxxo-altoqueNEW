@@ -83,21 +83,6 @@ class CategoriaController extends Controller
         }
     }
 
-    // Elimina la categoría
-    public function destroy(string $id)
-    {
-        try {
-            Categoria::findOrFail($id)->delete();
-            return redirect()->route('admin.categorias.index')
-                             ->with('success', 'Categoría eliminada.');
-        } catch (Exception $err) {
-            Log::error('Error eliminando categoría: ' . $err->getMessage());
-            return back()->with('error', 'Ocurrió un error al eliminar la categoría.');
-        }
-    }
+    
 
-    public function show(string $id)
-    {
-        return redirect()->route('admin.categorias.index');
-    }
 }

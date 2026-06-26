@@ -46,9 +46,9 @@
                 <div class="flex justify-between items-center bg-white rounded-xl shadow-sm px-4 py-3 text-sm">
                     <div>
                         <p class="font-semibold text-gray-800">Papas Lays 38g</p>
-                        <p class="text-gray-400">2 × S/. 2.00</p>
+                        <p class="text-gray-400">1 × S/. 2.50</p>
                     </div>
-                    <span class="font-semibold text-gray-700">S/. 4.00</span>
+                    <span class="font-semibold text-gray-700">S/. 2.50</span>
                 </div>
             </div>
         </div>
@@ -58,7 +58,7 @@
             <div class="bg-white rounded-2xl shadow p-6">
                 <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4">Monto a pagar</h2>
 
-                <div class="text-4xl font-black text-gray-900 mb-1">S/. 7.50</div>
+                <div class="text-4xl font-black text-gray-900 mb-1">S/. 6.00</div>
                 <p class="text-xs text-gray-400 mb-6">Incluye IGV. Pago en efectivo en tienda.</p>
 
                 {{-- Método --}}

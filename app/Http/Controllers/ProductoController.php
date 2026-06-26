@@ -35,12 +35,6 @@ class ProductoController extends Controller
         return view('promociones', compact('productos'));
     }
 
-    public function novedades()
-    {
-        $productos = Producto::with('categoria')->latest()->take(6)->get();
-        return view('novedades', compact('productos'));
-    }
-
     // Lista todos los productos
     public function index()
     {
@@ -144,13 +138,4 @@ class ProductoController extends Controller
         }
     }
 
-    public function show(string $id)
-    {
-        return redirect()->route('admin.productos.index');
-    }
-
-    public function destroy(string $id)
-    {
-        return redirect()->route('admin.productos.index');
-    }
 }
