@@ -14,7 +14,10 @@ Route::get('/catalogo', [ProductoController::class, 'catalogo'])->name('catalogo
 Route::get('/terminos', fn() => view('terminos'))->name('terminos');
 Route::get('/privacidad', fn() => view('privacidad'))->name('privacidad');
 Route::get('/promociones', [ProductoController::class, 'promociones'])->name('promociones');
-Route::get('/sucursales', fn() => view('sucursales'))->name('sucursales');
+Route::get('/sucursales', function () {
+    $sucursales = \App\Http\Controllers\CarritoController::listaSucursales();
+    return view('sucursales', compact('sucursales'));
+})->name('sucursales');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -32,8 +35,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/carrito/quitar', [CarritoController::class, 'quitar'])->name('carrito.quitar');
     Route::post('/carrito/incrementar', [CarritoController::class, 'incrementar'])->name('carrito.incrementar');
     Route::post('/carrito/decrementar', [CarritoController::class, 'decrementar'])->name('carrito.decrementar');
-    Route::get('/pago', fn() => view('pago'))->name('carrito.pago');
-    Route::get('/pedido-confirmado', fn() => view('pedido-confirmado'))->name('carrito.confirmado');
+    Route::get('/pago', [CarritoController::class, 'pago'])->name('carrito.pago');
+    Route::post('/pedido-confirmar', [CarritoController::class, 'confirmar'])->name('carrito.confirmar');
+    Route::get('/pedido-confirmado', [CarritoController::class, 'confirmado'])->name('carrito.confirmado');
 });
 
 // Rutas del administrador — protegidas con auth y es.admin
