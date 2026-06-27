@@ -29,7 +29,7 @@
         @foreach($sucursales as $id => $s)
         <div id="card-sucursal-{{ $id }}"
              class="sucursal-card bg-white rounded-2xl shadow hover:shadow-md transition p-4 flex gap-4 border-2 border-transparent"
-             data-lat="{{ $s['lat'] }}" data-lng="{{ $s['lng'] }}" data-id="{{ $id }}">
+             data-lat="{{ $s->lat }}" data-lng="{{ $s->lng }}" data-id="{{ $id }}">
 
             {{-- Ícono tienda OXXO --}}
             <div style="flex-shrink:0;width:60px;height:60px;background:#dc2626;border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;">
@@ -43,8 +43,8 @@
             <div class="flex-1 min-w-0">
                 <div class="flex items-start justify-between gap-2 mb-1">
                     <div>
-                        <h3 class="font-bold text-gray-800 text-sm">{{ $s['nombre'] }}</h3>
-                        <p class="text-xs text-red-500 font-semibold">{{ $s['distrito'] }}</p>
+                        <h3 class="font-bold text-gray-800 text-sm">{{ $s->nombre }}</h3>
+                        <p class="text-xs text-red-500 font-semibold">{{ $s->distrito }}</p>
                     </div>
                     <div id="badge-cerca-{{ $id }}" class="hidden" style="flex-shrink:0;">
                         <span style="background:#dc2626;color:white;font-size:9px;font-weight:700;padding:2px 8px;border-radius:999px;white-space:nowrap;">
@@ -52,15 +52,15 @@
                         </span>
                     </div>
                 </div>
-                <p class="text-xs text-gray-500 mb-0.5">📍 {{ $s['direccion'] }}</p>
-                <p class="text-xs text-gray-500 mb-0.5">🕐 {{ $s['horario'] }}</p>
-                <p class="text-xs text-gray-500 mb-2">📞 {{ $s['telefono'] }}</p>
+                <p class="text-xs text-gray-500 mb-0.5">📍 {{ $s->direccion }}</p>
+                <p class="text-xs text-gray-500 mb-0.5">🕐 {{ $s->horario }}</p>
+                <p class="text-xs text-gray-500 mb-2">📞 {{ $s->telefono }}</p>
 
                 <div class="flex items-center gap-2">
                     <span style="background:#dcfce7;color:#16a34a;font-size:9px;font-weight:700;padding:2px 8px;border-radius:999px;">
                         Abierto
                     </span>
-                    <a href="https://www.google.com/maps/dir/?api=1&destination={{ $s['lat'] }},{{ $s['lng'] }}"
+                    <a href="https://www.google.com/maps/dir/?api=1&destination={{ $s->lat }},{{ $s->lng }}"
                        target="_blank"
                        style="display:inline-flex;align-items:center;gap:4px;background:#fef2f2;color:#dc2626;font-size:11px;font-weight:600;padding:3px 10px;border-radius:8px;text-decoration:none;border:1px solid #fecaca;">
                         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" fill="currentColor" viewBox="0 0 24 24">
@@ -143,3 +143,4 @@ function haversine(lat1, lng1, lat2, lng2) {
 </style>
 
 @endsection
+
