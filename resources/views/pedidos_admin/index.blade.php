@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('layouts.public')
 
-@section('content')
+@section('contenido')
 <div class="container">
     <h1>Pedidos</h1>
 
