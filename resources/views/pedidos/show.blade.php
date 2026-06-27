@@ -37,6 +37,25 @@
         <p class="text-xs text-gray-400 mt-1">📅 {{ $pedido->created_at->format('d/m/Y H:i') }}</p>
     </div>
 
+    {{-- QR para el cajero --}}
+    @php
+        $lineas = ["OXXO AL TOQUE - PEDIDO: {$pedido->referencia}"];
+        $lineas[] = "Sucursal: " . ($pedido->sucursal->nombre ?? '');
+        $lineas[] = "----------------------------";
+        foreach($pedido->detalles as $d) {
+            $lineas[] = "{$d->nombre_producto} x{$d->cantidad} = S/. " . number_format($d->subtotal, 2);
+        }
+        $lineas[] = "----------------------------";
+        $lineas[] = "TOTAL: S/. " . number_format($pedido->total, 2);
+        $lineas[] = "Pago en efectivo en tienda";
+        $qrTexto = implode("\n", $lineas);
+    @endphp
+    <div class="bg-white rounded-2xl shadow-sm p-6 mb-6 flex flex-col items-center">
+        <h3 class="font-semibold text-gray-700 text-xs uppercase tracking-wide mb-4 self-start">📦 QR para el cajero</h3>
+        {!! QrCode::size(200)->errorCorrection('M')->generate($qrTexto) !!}
+        <p class="text-xs text-gray-400 mt-3">Muestra este QR al cajero de OXXO para retirar tus productos</p>
+    </div>
+
     {{-- Productos --}}
     <div class="bg-white rounded-2xl shadow-sm p-6 mb-6">
         <h3 class="font-semibold text-gray-700 text-xs uppercase tracking-wide mb-4">🛒 Productos</h3>
