@@ -46,16 +46,24 @@
                        class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400">
             </div>
 
-            <div class="grid grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Latitud (opcional)</label>
-                    <input type="number" step="any" name="lat" value="{{ old('lat', $sucursal->lat) }}"
-                           class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Longitud (opcional)</label>
-                    <input type="number" step="any" name="lng" value="{{ old('lng', $sucursal->lng) }}"
-                           class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400">
+            <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">Coordenadas (opcional)</label>
+                <p class="text-xs text-gray-400 mb-2">
+                    💡 Para obtener las coordenadas: abre
+                    <a href="https://maps.google.com" target="_blank" class="text-red-500 underline">Google Maps</a>,
+                    haz clic derecho sobre la tienda y copia los números que aparecen (ej: -12.1211, -77.0282).
+                </p>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">Latitud</label>
+                        <input type="number" step="any" name="lat" value="{{ old('lat', $sucursal->lat) }}" placeholder="-12.1211"
+                               class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-500 mb-1">Longitud</label>
+                        <input type="number" step="any" name="lng" value="{{ old('lng', $sucursal->lng) }}" placeholder="-77.0282"
+                               class="w-full border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-400">
+                    </div>
                 </div>
             </div>
 
