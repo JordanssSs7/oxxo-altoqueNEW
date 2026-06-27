@@ -170,8 +170,10 @@ class CarritoController extends Controller
             'pedido_id' => $pedido->id,
             'referencia_pago' => $referencia,
             'sucursal_pedido' => [
-                'nombre' => $sucursal->nombre,
+                'nombre'    => $sucursal->nombre,
+                'distrito'  => $sucursal->distrito,
                 'direccion' => $sucursal->direccion,
+                'horario'   => $sucursal->horario,
             ],
             'total_pedido' => $total,
             'productos_pedido' => $carrito,
