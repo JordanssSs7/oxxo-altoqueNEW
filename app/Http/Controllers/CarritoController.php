@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Producto;
+use App\Models\Pedido;
+use App\Models\PedidoDetalle;
 use Illuminate\Http\Request;
 
 class CarritoController extends Controller
@@ -127,24 +129,56 @@ class CarritoController extends Controller
 
     public function confirmar(Request $request)
     {
-        $request->validate(['sucursal_id' => 'required|integer|exists:sucursales,id']);
-
-        $sucursalModel = \App\Models\Sucursal::findOrFail($request->sucursal_id);
-        $sucursal = [
-            'nombre'   => $sucursalModel->nombre,
-            'distrito' => $sucursalModel->distrito,
-            'direccion'=> $sucursalModel->direccion,
-            'horario'  => $sucursalModel->horario,
-        ];
-
+        $request->validate([
+            'sucursal_id' => 'required|exists:sucursales,id',
+        ]);
+    
         $carrito = session('carrito', []);
-        $total   = array_sum(array_map(fn($i) => $i['precio'] * $i['cantidad'], $carrito));
-
-        session(['sucursal_pedido'   => $sucursal]);
-        session(['total_pedido'      => $total]);
-        session(['productos_pedido'  => $carrito]);
+    
+        if (empty($carrito)) {
+            return redirect()->route('catalogo');
+        }
+    
+        $sucursal = \App\Models\Sucursal::findOrFail($request->sucursal_id);
+    
+        $total = array_sum(array_map(function ($item) {
+            return $item['precio'] * $item['cantidad'];
+        }, $carrito));
+    
+        $referencia = session('referencia_pago', 'OXT-' . strtoupper(substr(md5(uniqid()), 0, 8)));
+    
+        $pedido = Pedido::create([
+            'user_id' => auth()->id(),
+            'sucursal_id' => $sucursal->id,
+            'referencia' => $referencia,
+            'total' => $total,
+            'estado' => 'Pendiente',
+        ]);
+    
+        foreach ($carrito as $productoId => $item) {
+            PedidoDetalle::create([
+                'pedido_id' => $pedido->id,
+                'producto_id' => $productoId,
+                'nombre_producto' => $item['nombre'],
+                'precio' => $item['precio'],
+                'cantidad' => $item['cantidad'],
+                'subtotal' => $item['precio'] * $item['cantidad'],
+            ]);
+        }
+    
+        session([
+            'pedido_id' => $pedido->id,
+            'referencia_pago' => $referencia,
+            'sucursal_pedido' => [
+                'nombre' => $sucursal->nombre,
+                'direccion' => $sucursal->direccion,
+            ],
+            'total_pedido' => $total,
+            'productos_pedido' => $carrito,
+        ]);
+    
         session()->forget('carrito');
-
+    
         return redirect()->route('carrito.confirmado');
     }
 

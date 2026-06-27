@@ -1,10 +1,12 @@
-<?php
+﻿<?php
 
 use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SucursalController;
+use App\Http\Controllers\PedidoController;
+use App\Http\Controllers\Admin\PedidoController as AdminPedidoController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,6 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::post('/profile/foto', [ProfileController::class, 'actualizarFoto'])->name('profile.foto');
+    Route::get('/mis-pedidos', [PedidoController::class, 'index'])->name('pedidos.index');
+    Route::get('/mis-pedidos/{pedido}', [PedidoController::class, 'show'])->name('pedidos.show');
 
     // Carrito
     Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
@@ -46,6 +50,9 @@ Route::middleware(['auth', 'es.admin'])->prefix('admin')->name('admin.')->group(
     Route::resource('categorias', CategoriaController::class);
     Route::resource('productos', ProductoController::class);
     Route::resource('sucursales', SucursalController::class);
+    Route::get('/pedidos', [AdminPedidoController::class, 'index'])->name('pedidos.index');
+    Route::get('/pedidos/{pedido}', [AdminPedidoController::class, 'show'])->name('pedidos.show');
+    Route::put('/pedidos/{pedido}', [AdminPedidoController::class, 'update'])->name('pedidos.update');
 });
 
 require __DIR__.'/auth.php';

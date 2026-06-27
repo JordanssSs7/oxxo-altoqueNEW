@@ -23,6 +23,9 @@
                 <a href="{{ route('catalogo') }}" class="hover:text-red-600 transition">Productos</a>
                 <a href="{{ route('promociones') }}" class="hover:text-red-600 transition">Promociones</a>
                 <a href="{{ route('sucursales') }}" class="hover:text-red-600 transition">Sucursales</a>
+                @auth
+                    <a href="{{ route('pedidos.index') }}" class="hover:text-red-600 transition">Mis pedidos</a>
+                @endauth
             </div>
 
             {{-- Carrito + botón sesión --}}

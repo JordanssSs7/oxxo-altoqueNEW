@@ -15,4 +15,8 @@ class Producto extends Model
         //belongsTo -> un producto prtenece a una categoria, busca por categoria_id, pero devuelve el nombre, no el ID
         return $this->belongsTo(Categoria::class, 'categoria_id', 'id');
     }
+    public function pedidoDetalles()
+    {
+        return $this->hasMany(PedidoDetalle::class);
+    }
 }
