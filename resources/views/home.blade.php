@@ -37,8 +37,7 @@
         {{-- Descripción --}}
         <p class="text-gray-500 text-lg mb-8 max-w-sm leading-relaxed">
             Tu tienda de conveniencia en línea. Encuentra tus productos
-            favoritos, aprovecha promociones y recoge tu pedido en la
-            sucursal más cercana.
+            favoritos y recoge tu pedido en la sucursal más cercana.
         </p>
 
         {{-- Botón CTA --}}

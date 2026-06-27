@@ -24,7 +24,9 @@
         <div class="col-span-2 space-y-4">
             @foreach($carrito as $id => $item)
             <div id="fila-{{ $id }}" class="bg-white rounded-2xl shadow p-4 flex items-center gap-4"
-                 data-stock="{{ $item['stock'] ?? 9999 }}">
+                 data-stock="{{ $item['stock'] ?? 9999 }}"
+                 data-precio="{{ $item['precio'] }}"
+                 data-id="{{ $id }}">
 
                 {{-- Imagen --}}
                 @if($item['imagen'])
@@ -112,35 +114,86 @@
 const token = '{{ csrf_token() }}';
 
 function cambiarCantidad(id, accion) {
+    const fila     = document.getElementById('fila-' + id);
+    const precio   = parseFloat(fila?.dataset.precio ?? 0);
+    const stock    = parseInt(fila?.dataset.stock ?? 9999);
+    const spanCant = document.getElementById('cantidad-' + id);
+    const btnInc   = document.getElementById('btn-inc-' + id);
+    let cantidad   = parseInt(spanCant.textContent);
+
+    // — Actualización inmediata del DOM —
+    if (accion === 'incrementar') {
+        if (cantidad >= stock) return;
+        cantidad++;
+        spanCant.textContent = cantidad;
+        actualizarFila(id, precio, cantidad);
+        if (btnInc && cantidad >= stock) bloquearInc(btnInc);
+    } else {
+        if (cantidad === 1) {
+            fila.style.opacity = '0.4';
+            fila.style.pointerEvents = 'none';
+        } else {
+            cantidad--;
+            spanCant.textContent = cantidad;
+            actualizarFila(id, precio, cantidad);
+            if (btnInc && cantidad < stock) desbloquearInc(btnInc);
+        }
+    }
+    document.getElementById('total-carrito').textContent = 'S/. ' + recalcularTotal();
+
+    // — Request al servidor en segundo plano —
     fetch(`/carrito/${accion}`, {
-        method: 'POST',
+        method : 'POST',
         headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': token },
-        body: JSON.stringify({ producto_id: id })
+        body   : JSON.stringify({ producto_id: id }),
     })
     .then(r => r.json())
     .then(data => {
         if (data.eliminado) {
             document.getElementById('fila-' + id).remove();
             document.getElementById('resumen-' + id)?.remove();
-        } else {
-            document.getElementById('cantidad-' + id).textContent = data.cantidad;
-            document.getElementById('subtotal-' + id).textContent = 'Subtotal: S/. ' + data.subtotal;
-            document.getElementById('res-cant-' + id).textContent = data.cantidad;
-            document.getElementById('res-sub-' + id).textContent  = 'S/. ' + data.subtotal;
-
-            const btnInc = document.getElementById('btn-inc-' + id);
-            if (btnInc) {
-                const bloqueado = data.sin_stock === true;
-                btnInc.disabled = bloqueado;
-                btnInc.style.opacity = bloqueado ? '0.35' : '1';
-                btnInc.style.cursor  = bloqueado ? 'not-allowed' : 'pointer';
-                btnInc.title         = bloqueado ? 'Límite de stock alcanzado' : '';
-            }
+        } else if (data.cantidad !== undefined) {
+            // Corregir si el servidor devolvió algo distinto (ej. tope de stock)
+            spanCant.textContent = data.cantidad;
+            actualizarFila(id, precio, data.cantidad);
+            if (data.sin_stock && btnInc) bloquearInc(btnInc);
         }
+        // El total y badge vienen del servidor (fuente de verdad)
         document.getElementById('total-carrito').textContent = 'S/. ' + data.total;
         document.getElementById('badge-carrito').textContent = data.count;
         if (data.count === 0) location.reload();
     });
+}
+
+function actualizarFila(id, precio, cantidad) {
+    const sub = (precio * cantidad).toFixed(2);
+    document.getElementById('subtotal-' + id).textContent = 'Subtotal: S/. ' + sub;
+    document.getElementById('res-cant-' + id).textContent = cantidad;
+    document.getElementById('res-sub-' + id).textContent  = 'S/. ' + sub;
+}
+
+function recalcularTotal() {
+    let total = 0;
+    document.querySelectorAll('[data-precio]').forEach(fila => {
+        const id   = fila.dataset.id;
+        const cant = parseInt(document.getElementById('cantidad-' + id)?.textContent ?? 0);
+        total += parseFloat(fila.dataset.precio) * cant;
+    });
+    return total.toFixed(2);
+}
+
+function bloquearInc(btn) {
+    btn.disabled = true;
+    btn.style.opacity = '0.35';
+    btn.style.cursor  = 'not-allowed';
+    btn.title = 'Límite de stock alcanzado';
+}
+
+function desbloquearInc(btn) {
+    btn.disabled = false;
+    btn.style.opacity = '1';
+    btn.style.cursor  = 'pointer';
+    btn.title = '';
 }
 </script>
 
