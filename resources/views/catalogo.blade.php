@@ -10,6 +10,14 @@
 <script>setTimeout(() => document.getElementById('toast')?.remove(), 3000)</script>
 @endif
 
+{{-- Toast stock agotado --}}
+@if(session('stock_agotado'))
+<div id="toast-stock" style="position:fixed;top:80px;right:24px;z-index:200;background:#dc2626;color:white;padding:12px 20px;border-radius:10px;font-weight:600;font-size:14px;box-shadow:0 4px 12px rgba(0,0,0,.15);">
+    ✗ "{{ session('stock_agotado') }}" — no hay más unidades disponibles
+</div>
+<script>setTimeout(() => document.getElementById('toast-stock')?.remove(), 3000)</script>
+@endif
+
 <div class="max-w-7xl mx-auto px-6 py-10">
 
     {{-- Encabezado --}}
@@ -76,13 +84,26 @@
 
                     {{-- Botón agregar --}}
                     @auth
+                    @php $enCarrito = session('carrito')[$producto->id]['cantidad'] ?? 0; @endphp
                     <form method="POST" action="{{ route('carrito.agregar') }}">
                         @csrf
                         <input type="hidden" name="producto_id" value="{{ $producto->id }}">
+                        @if($producto->stock === 0)
+                        <button type="button" disabled
+                                style="width:100%;margin-top:12px;background:#d1d5db;color:#9ca3af;padding:8px 0;border-radius:8px;border:none;cursor:not-allowed;font-weight:600;">
+                            Sin stock
+                        </button>
+                        @elseif($enCarrito >= $producto->stock)
+                        <button type="button" disabled
+                                style="width:100%;margin-top:12px;background:#fef2f2;color:#dc2626;padding:8px 0;border-radius:8px;border:1px solid #fecaca;cursor:not-allowed;font-weight:600;">
+                            Límite alcanzado ({{ $producto->stock }})
+                        </button>
+                        @else
                         <button type="submit"
                                 style="width:100%;margin-top:12px;background:#dc2626;color:white;padding:8px 0;border-radius:8px;border:none;cursor:pointer;font-weight:600;">
                             Agregar al carrito
                         </button>
+                        @endif
                     </form>
                     @else
                     <button onclick="pedirLogin()"

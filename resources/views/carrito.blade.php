@@ -23,7 +23,8 @@
         {{-- Lista de productos --}}
         <div class="col-span-2 space-y-4">
             @foreach($carrito as $id => $item)
-            <div id="fila-{{ $id }}" class="bg-white rounded-2xl shadow p-4 flex items-center gap-4">
+            <div id="fila-{{ $id }}" class="bg-white rounded-2xl shadow p-4 flex items-center gap-4"
+                 data-stock="{{ $item['stock'] ?? 9999 }}">
 
                 {{-- Imagen --}}
                 @if($item['imagen'])
@@ -44,14 +45,17 @@
                 </div>
 
                 {{-- Cantidad con controles --}}
+                @php $stock = $item['stock'] ?? 9999; @endphp
                 <div class="flex items-center gap-2" id="controles-{{ $id }}">
                     <button onclick="cambiarCantidad({{ $id }}, 'decrementar')"
                             style="width:30px;height:30px;border-radius:50%;border:1px solid #e5e7eb;background:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
                         −
                     </button>
                     <span id="cantidad-{{ $id }}" class="text-lg font-bold text-gray-800 w-6 text-center">{{ $item['cantidad'] }}</span>
-                    <button onclick="cambiarCantidad({{ $id }}, 'incrementar')"
-                            style="width:30px;height:30px;border-radius:50%;border:1px solid #e5e7eb;background:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;">
+                    <button id="btn-inc-{{ $id }}" onclick="cambiarCantidad({{ $id }}, 'incrementar')"
+                            style="width:30px;height:30px;border-radius:50%;border:1px solid #e5e7eb;background:white;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;"
+                            {{ $item['cantidad'] >= $stock ? 'disabled' : '' }}
+                            title="{{ $item['cantidad'] >= $stock ? 'Límite de stock alcanzado' : '' }}">
                         +
                     </button>
                 </div>
@@ -119,10 +123,19 @@ function cambiarCantidad(id, accion) {
             document.getElementById('fila-' + id).remove();
             document.getElementById('resumen-' + id)?.remove();
         } else {
-            document.getElementById('cantidad-' + id).textContent   = data.cantidad;
-            document.getElementById('subtotal-' + id).textContent   = 'Subtotal: S/. ' + data.subtotal;
-            document.getElementById('res-cant-' + id).textContent   = data.cantidad;
-            document.getElementById('res-sub-' + id).textContent    = 'S/. ' + data.subtotal;
+            document.getElementById('cantidad-' + id).textContent = data.cantidad;
+            document.getElementById('subtotal-' + id).textContent = 'Subtotal: S/. ' + data.subtotal;
+            document.getElementById('res-cant-' + id).textContent = data.cantidad;
+            document.getElementById('res-sub-' + id).textContent  = 'S/. ' + data.subtotal;
+
+            const btnInc = document.getElementById('btn-inc-' + id);
+            if (btnInc) {
+                const bloqueado = data.sin_stock === true;
+                btnInc.disabled = bloqueado;
+                btnInc.style.opacity = bloqueado ? '0.35' : '1';
+                btnInc.style.cursor  = bloqueado ? 'not-allowed' : 'pointer';
+                btnInc.title         = bloqueado ? 'Límite de stock alcanzado' : '';
+            }
         }
         document.getElementById('total-carrito').textContent = 'S/. ' + data.total;
         document.getElementById('badge-carrito').textContent = data.count;

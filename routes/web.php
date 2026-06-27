@@ -4,6 +4,7 @@ use App\Http\Controllers\CarritoController;
 use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\SucursalController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,7 +16,7 @@ Route::get('/terminos', fn() => view('terminos'))->name('terminos');
 Route::get('/privacidad', fn() => view('privacidad'))->name('privacidad');
 Route::get('/promociones', [ProductoController::class, 'promociones'])->name('promociones');
 Route::get('/sucursales', function () {
-    $sucursales = \App\Http\Controllers\CarritoController::listaSucursales();
+    $sucursales = \App\Models\Sucursal::where('activo', true)->orderBy('nombre')->get();
     return view('sucursales', compact('sucursales'));
 })->name('sucursales');
 
@@ -44,6 +45,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'es.admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::resource('categorias', CategoriaController::class);
     Route::resource('productos', ProductoController::class);
+    Route::resource('sucursales', SucursalController::class);
 });
 
 require __DIR__.'/auth.php';

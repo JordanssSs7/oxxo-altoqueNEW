@@ -62,9 +62,9 @@
             <div>
                 <h2 class="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4">Elige tu sucursal de recojo</h2>
                 <div class="space-y-3">
-                    @foreach($sucursales as $id => $s)
-                    <label class="radio-label block cursor-pointer" for="suc-{{ $id }}">
-                        <input type="radio" name="sucursal_id" id="suc-{{ $id }}" value="{{ $id }}"
+                    @foreach($sucursales as $s)
+                    <label class="radio-label block cursor-pointer" for="suc-{{ $s->id }}">
+                        <input type="radio" name="sucursal_id" id="suc-{{ $s->id }}" value="{{ $s->id }}"
                                class="radio-input" {{ $loop->first ? 'checked' : '' }}>
                         <div class="radio-card flex items-center gap-3 bg-white rounded-xl shadow-sm px-4 py-3 border-2">
 
@@ -78,10 +78,10 @@
 
                             {{-- Info --}}
                             <div class="flex-1 min-w-0">
-                                <p class="font-semibold text-sm text-gray-800">{{ $s['nombre'] }}</p>
-                                <p class="text-xs text-red-500 font-medium">{{ $s['distrito'] }}</p>
-                                <p class="text-xs text-gray-500">📍 {{ $s['direccion'] }}</p>
-                                <p class="text-xs text-gray-400">🕐 {{ $s['horario'] }}</p>
+                                <p class="font-semibold text-sm text-gray-800">{{ $s->nombre }}</p>
+                                <p class="text-xs text-red-500 font-medium">{{ $s->distrito }}</p>
+                                <p class="text-xs text-gray-500">📍 {{ $s->direccion }}</p>
+                                <p class="text-xs text-gray-400">🕐 {{ $s->horario }}</p>
                             </div>
 
                             {{-- Indicador selección --}}
