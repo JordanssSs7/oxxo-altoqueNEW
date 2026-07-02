@@ -44,6 +44,34 @@ class CarritoController extends Controller
         return back()->with('agregado', $producto->nombre);
     }
 
+    public function agregarPromo(Request $request)
+    {
+        $promocion = \App\Models\Promocion::with('producto', 'producto2')->findOrFail($request->promocion_id);
+        $carrito   = session('carrito', []);
+
+        $nombre = $promocion->producto->nombre;
+        if ($promocion->producto2) {
+            $nombre .= ' & ' . $promocion->producto2->nombre;
+        }
+
+        $key = 'promo_' . $promocion->id;
+
+        if (!isset($carrito[$key])) {
+            $carrito[$key] = [
+                'nombre'   => $nombre,
+                'precio'   => $promocion->precio_oferta,
+                'cantidad' => 1,
+                'imagen'   => $promocion->producto->imagen,
+                'stock'    => 99,
+            ];
+        } else {
+            $carrito[$key]['cantidad']++;
+        }
+
+        session(['carrito' => $carrito]);
+        return back()->with('agregado', $nombre);
+    }
+
     public function quitar(Request $request)
     {
         $carrito = session('carrito', []);
@@ -157,12 +185,12 @@ class CarritoController extends Controller
     
         foreach ($carrito as $productoId => $item) {
             PedidoDetalle::create([
-                'pedido_id' => $pedido->id,
-                'producto_id' => $productoId,
+                'pedido_id'       => $pedido->id,
+                'producto_id'     => str_starts_with($productoId, 'promo_') ? null : $productoId,
                 'nombre_producto' => $item['nombre'],
-                'precio' => $item['precio'],
-                'cantidad' => $item['cantidad'],
-                'subtotal' => $item['precio'] * $item['cantidad'],
+                'precio'          => $item['precio'],
+                'cantidad'        => $item['cantidad'],
+                'subtotal'        => $item['precio'] * $item['cantidad'],
             ]);
         }
     

@@ -10,6 +10,12 @@ use Illuminate\Support\Facades\Log;
 
 class ProductoController extends Controller
 {
+    // Promociones públicas
+    public function promociones()
+    {
+        $promociones = \App\Models\Promocion::with('producto')->orderBy('created_at', 'desc')->get();
+        return view('promociones', compact('promociones'));
+    }
     // Catálogo público (sin login)
     public function catalogo()
     {
@@ -97,11 +103,12 @@ class ProductoController extends Controller
     public function update(Request $request, string $id)
     {
         $request->validate([
-            'nombre'       => ['required', 'string', 'max:150'],
-            'precio'       => ['required', 'numeric', 'min:0'],
-            'stock'        => ['required', 'integer', 'min:0'],
-            'categoria_id' => ['required', 'exists:categorias,id'],
-            'imagen'       => ['nullable', 'image', 'max:2048'],
+            'nombre'        => ['required', 'string', 'max:150'],
+            'precio'        => ['required', 'numeric', 'min:0'],
+            'stock'         => ['required', 'integer', 'min:0'],
+            'categoria_id'  => ['required', 'exists:categorias,id'],
+            'imagen'        => ['nullable', 'image', 'max:2048'],
+            'precio_oferta' => ['nullable', 'numeric', 'min:0'],
         ]);
 
         try {
@@ -115,6 +122,8 @@ class ProductoController extends Controller
             if ($request->hasFile('imagen')) {
                 $producto->imagen = $request->file('imagen')->store('productos', 'public');
             }
+
+            $producto->precio_oferta = $request->precio_oferta ?: null;
 
             $producto->save();
 

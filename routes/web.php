@@ -14,6 +14,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::get('/catalogo', [ProductoController::class, 'catalogo'])->name('catalogo');
+Route::get('/promociones', [ProductoController::class, 'promociones'])->name('promociones');
 Route::get('/terminos', fn() => view('terminos'))->name('terminos');
 Route::get('/privacidad', fn() => view('privacidad'))->name('privacidad');
 Route::get('/sucursales', function () {
@@ -36,6 +37,7 @@ Route::middleware('auth')->group(function () {
     // Carrito
     Route::get('/carrito', [CarritoController::class, 'index'])->name('carrito.index');
     Route::post('/carrito/agregar', [CarritoController::class, 'agregar'])->name('carrito.agregar');
+    Route::post('/carrito/agregar-promo', [CarritoController::class, 'agregarPromo'])->name('carrito.agregarPromo');
     Route::post('/carrito/quitar', [CarritoController::class, 'quitar'])->name('carrito.quitar');
     Route::post('/carrito/incrementar', [CarritoController::class, 'incrementar'])->name('carrito.incrementar');
     Route::post('/carrito/decrementar', [CarritoController::class, 'decrementar'])->name('carrito.decrementar');
@@ -49,6 +51,7 @@ Route::middleware(['auth', 'es.admin'])->prefix('admin')->name('admin.')->group(
     Route::resource('categorias', CategoriaController::class);
     Route::resource('productos', ProductoController::class);
     Route::resource('sucursales', SucursalController::class);
+    Route::resource('promociones', \App\Http\Controllers\Admin\PromocionController::class);
     Route::get('/pedidos', [AdminPedidoController::class, 'index'])->name('pedidos.index');
     Route::get('/pedidos/{pedido}', [AdminPedidoController::class, 'show'])->name('pedidos.show');
     Route::put('/pedidos/{pedido}', [AdminPedidoController::class, 'update'])->name('pedidos.update');

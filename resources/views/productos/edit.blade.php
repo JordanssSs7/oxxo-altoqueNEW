@@ -51,6 +51,13 @@
             </div>
 
             <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1">Precio oferta (S/.) <span class="text-gray-400 font-normal">— opcional</span></label>
+                <input type="number" name="precio_oferta" value="{{ old('precio_oferta', $producto->precio_oferta) }}" step="0.01" min="0"
+                       class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
+                       placeholder="Déjalo vacío para quitar la oferta">
+            </div>
+
+            <div class="mb-4">
                 <label class="block text-sm font-medium text-gray-700 mb-1">Stock</label>
                 <input type="number" name="stock" value="{{ old('stock', $producto->stock) }}" min="0"
                        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-400"
